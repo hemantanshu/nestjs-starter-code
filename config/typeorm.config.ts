@@ -1,16 +1,19 @@
 import { join } from 'path';
 import { ConnectionOptions } from 'typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import * as config from 'config';
+
+const db = config.get('db');
 
 // Check typeORM documentation for more information.
 const dbConfig: ConnectionOptions = {
   name: 'default',
-  type: 'mysql',
-  host: 'localhost',
-  port: 3306,
-  username: 'root',
-  password: 'databasestech09',
-  database: 'crm_db',
+  type: db.type,
+  host: db.host,
+  port: db.port,
+  username: db.user,
+  password: db.password,
+  database: db.database,
   entities: [
     join(__dirname, '/../**/**/*.entity.{ts,js}'),
     join(
