@@ -1,0 +1,29 @@
+server:
+  port: 3000
+  salt: $2b$10$YKHIuNJlh0M3lddACGS0j.
+
+session:
+  cookie:
+    age: 360000
+
+db:
+  type: mysql
+  host: 127.0.0.1
+  port: 3306
+  user: root
+  password: databasestech09
+  database: nestjs_learning
+
+auth:
+  jwt:
+    secret: secret
+    expires: 3600
+  social:
+    fb:
+      client: 1194445240586595,
+      secret: a055c9d0b01d7ffccb97e3ab56d9a4f8,
+      callbackurl: http://localhost:3000/auth/social/fb/callback
+    google:
+      client: 718263032183-l6bhf6150bn0u5ul51vjf986bua15il5.apps.googleusercontent.com
+      secret: bQvVZSXpZWtOUREzZtJy4q22
+      callbackurl: http://localhost:3000/auth/social/google/callback
