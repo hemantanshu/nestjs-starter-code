@@ -1,0 +1,3 @@
+const entityConstants = {};
+
+export = entityConstants;

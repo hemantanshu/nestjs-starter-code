@@ -5,11 +5,14 @@
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es2017",
+    "target": "es6",
     "sourceMap": true,
     "outDir": "./dist",
+    "rootDir": "./src",
     "baseUrl": "./",
-    "incremental": true
+    "noLib": false,
+    "moduleResolution": "node"
   },
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }
