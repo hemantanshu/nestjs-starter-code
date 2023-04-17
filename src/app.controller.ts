@@ -1,7 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { CacheService, QueueService } from '@servicelabsco/nestjs-utility-services';
+import { Auth, QueueService } from '@servicelabsco/nestjs-utility-services';
 import { AppService } from './app.service';
-import { addMonths } from 'date-fns';
 
 @Controller()
 export class AppController {
@@ -15,6 +14,11 @@ export class AppController {
     @Get('internal/test')
     check() {
         return 'am here';
+    }
+
+    @Get('api/auth')
+    async auth() {
+        return Auth.user();
     }
 
     @Get('failed-jobs')

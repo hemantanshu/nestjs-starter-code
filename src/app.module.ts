@@ -2,6 +2,7 @@ import { BullModule } from '@nestjs/bull';
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {
+    AuthController,
     AuthModule,
     BasicAuthMiddleware,
     InternalMiddleware,
@@ -14,10 +15,10 @@ import { CommandModule } from 'nestjs-command';
 import { ConsoleModule } from 'nestjs-console';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { CommonModule } from './common/common.module';
+import * as queueConfig from './config/queue.config';
 import * as ormconfig from './config/typeorm.config';
 import { WorkerService } from './worker.service';
-import * as queueConfig from './config/queue.config';
-import { CommonModule } from './common/common.module';
 
 @Module({
     imports: [
@@ -30,7 +31,7 @@ import { CommonModule } from './common/common.module';
         CommandModule,
         ConsoleModule,
     ],
-    controllers: [AppController],
+    controllers: [AppController, AuthController],
     providers: [AppService, WorkerService],
 })
 export class AppModule {
