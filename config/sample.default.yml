@@ -1,0 +1,58 @@
+server:
+    port: 4000
+    salt: $2b$10$YKHIuNKNJ0M1lddACGS0j.
+    env: local
+    api_url: http://127.0.0.1:4000
+    password: sfsdf
+
+rate:
+    window: 60000
+    limit: 10000
+
+redis:
+    slug: slug-unique
+    host: localhost
+    port: 6379
+
+queue:
+    name: redis-queue-name
+    worker: true
+    completeLimit: 50000
+    failureLimit: 10000
+    defaultDelay: 200
+
+db:
+    # remote postgres server
+    type: postgres
+    host: hostnamehere
+    port: 5432
+    user: postgres
+    password: password
+    database: dbname
+    logging: false
+
+auth:
+    jwt:
+        secret: iae^5al*31h1#%1u
+        expires: 96h
+
+aws:
+    s3:
+        bucket:
+        key:
+        region:
+        secret:
+
+sentry:
+    dsn: 1
+
+mail:
+    gateway: smtp
+    from:
+    host:
+    port:
+    username:
+    password:
+
+sqs:
+    fifo: fifo-url
