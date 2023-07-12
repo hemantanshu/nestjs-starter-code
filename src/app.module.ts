@@ -2,7 +2,6 @@ import { BullModule } from '@nestjs/bull';
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {
-    AuthController,
     AuthModule,
     BasicAuthMiddleware,
     InternalMiddleware,
@@ -31,7 +30,7 @@ import { WorkerService } from './worker.service';
         CommandModule,
         ConsoleModule,
     ],
-    controllers: [AppController, AuthController],
+    controllers: [AppController],
     providers: [AppService, WorkerService],
 })
 export class AppModule {
