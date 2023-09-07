@@ -16,12 +16,14 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CommonModule } from './common/common.module';
 import * as queueConfig from './config/queue.config';
+import * as readOrmconfig from './config/read.typeorm.config';
 import * as ormconfig from './config/typeorm.config';
 import { WorkerService } from './worker.service';
 
 @Module({
     imports: [
         TypeOrmModule.forRoot(ormconfig),
+        TypeOrmModule.forRoot(readOrmconfig),
         BullModule.forRoot(queueConfig),
         CommonModule,
         AuthModule,
