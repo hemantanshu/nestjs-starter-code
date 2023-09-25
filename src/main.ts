@@ -1,17 +1,20 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { ShutdownService } from '@servicelabsco/nestjs-utility-services';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { RedisIoAdapter } from '@servicelabsco/nestjs-utility-services';
 import * as bodyParser from 'body-parser';
 import * as compression from 'compression';
-import * as config from 'config';
 import * as httpContext from 'express-http-context';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import 'source-map-support/register';
 import { AppModule } from './app.module';
-import { RedisIoAdapter } from './common/adapters/redis.io.adapter';
 import * as corsConfig from './config/cors.config';
+import { SentryConfig } from './config/sentry.config';
 import rateLimiterConfig = require('./config/rate.limiter.config');
+
+// tslint:disable-next-line: no-var-requires
+require('newrelic');
 
 // tslint:disable-next-line: no-var-requires
 require('source-map-support').install();
@@ -20,7 +23,7 @@ require('source-map-support').install();
 Error.stackTraceLimit = 100;
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule);
+    const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
     app.use(helmet());
     app.useWebSocketAdapter(new RedisIoAdapter(app));
@@ -32,19 +35,19 @@ async function bootstrap() {
     app.use(rateLimit(rateLimiterConfig));
     app.use(compression());
 
-    // tslint:disable-next-line: no-unused-expression
+    app.set('trust proxy', 1);
+    app.enableShutdownHooks();
 
-    // Subscribe to your service's shutdown event, run app.close() when emitted
-    app.get(ShutdownService).subscribeToShutdown(() => {
-        app.close().then(() => {
-            process.exit(1);
-        });
-    });
+    // tslint:disable-next-line: no-unused-expression
+    try {
+        new SentryConfig(app);
+    } catch (error) {
+        global.console.error('error', error);
+    }
 
     app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
 
     // starting the server on the defined port
-    const port = config.get('server').port;
-    await app.listen(process.env.PORT || port);
+    await app.listen(process.env.SERVER_PORT || 4000);
 }
 bootstrap();

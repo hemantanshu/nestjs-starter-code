@@ -1,10 +1,7 @@
-import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import * as config from 'config';
 import { join } from 'path';
 import * as pg from 'pg';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-
-const db = config.get('db');
+import 'dotenv/config';
 
 // set the big int column to the number when returning
 pg.types.setTypeParser(20, (v: any) => {
@@ -15,15 +12,14 @@ pg.types.setTypeParser(20, (v: any) => {
 pg.types.setTypeParser(1700, (v: any) => parseFloat(v));
 
 // Check typeORM documentation for more information.
-const dbConfig: TypeOrmModuleOptions = {
+const dbConfig: any = {
     name: 'default',
-    // driver: 'pg',
-    type: process.env.DB_TYPE || db.type,
-    host: process.env.DB_HOST || db.host,
-    port: process.env.DB_PORT || db.port,
-    username: process.env.DB_USER || db.user,
-    password: process.env.DB_PASSWORD || db.password,
-    database: process.env.DB_DATABASE || db.database,
+    type: 'postgres',
+    host: process.env.PG_DB_HOST,
+    port: parseInt(process.env.PG_DB_PORT, 10),
+    username: process.env.PG_DB_USERNAME,
+    password: process.env.PG_DB_PASSWORD,
+    database: process.env.PG_DB_DATABASE,
     entities: [join(__dirname, '/../**/**/*.entity.{ts,js}'), join(__dirname, '..', '..', 'node_modules/@servicelabsco/**/*.entity.{ts,js}')],
 
     // We are using migrations, synchronize should be set to false.
@@ -35,7 +31,7 @@ const dbConfig: TypeOrmModuleOptions = {
     // Run migrations automatically,
     // you can disable this if you prefer running migration manually.
     migrationsRun: false,
-    logging: process.env.DB_DATABASE || db.logging,
+    logging: process.env.PG_DB_LOGGING === 'true',
     logger: 'file',
 
     // allow both start:prod and start:dev to use migrations

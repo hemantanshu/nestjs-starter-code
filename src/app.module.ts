@@ -1,6 +1,7 @@
 import { BullModule } from '@nestjs/bull';
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
 import {
     AuthModule,
     BasicAuthMiddleware,
@@ -8,7 +9,9 @@ import {
     JwtMiddleware,
     PlatformUtilityModule,
     RestrictedMiddleware,
+    ShutdownService,
     SystemModule,
+    WorkerService,
 } from '@servicelabsco/nestjs-utility-services';
 import { CommandModule } from 'nestjs-command';
 import { ConsoleModule } from 'nestjs-console';
@@ -18,13 +21,13 @@ import { CommonModule } from './common/common.module';
 import * as queueConfig from './config/queue.config';
 import * as readOrmconfig from './config/read.typeorm.config';
 import * as ormconfig from './config/typeorm.config';
-import { WorkerService } from './worker.service';
 
 @Module({
     imports: [
         TypeOrmModule.forRoot(ormconfig),
         TypeOrmModule.forRoot(readOrmconfig),
         BullModule.forRoot(queueConfig),
+        ConfigModule.forRoot({ isGlobal: true }),
         CommonModule,
         AuthModule,
         SystemModule,
@@ -33,7 +36,7 @@ import { WorkerService } from './worker.service';
         ConsoleModule,
     ],
     controllers: [AppController],
-    providers: [AppService, WorkerService],
+    providers: [AppService, WorkerService, ShutdownService],
 })
 export class AppModule {
     configure(consumer: MiddlewareConsumer) {

@@ -1,10 +1,11 @@
 'use strict';
 
 import { HttpStatus } from '@nestjs/common';
-import * as config from 'config';
+import 'dotenv/config';
+import { join } from 'path';
 
-const key = config.get('newrelic.key');
-const name = config.get('newrelic.name') || 'shopkhata api';
+const key = process.env.NEWRELIC_KEY;
+const name = process.env.NEWRELIC_NAME;
 /**
  * New Relic agent configuration.
  *
@@ -43,6 +44,8 @@ exports.config = {
          * production applications.
          */
         level: 'info',
+
+        filepath: join(__dirname, '../tmp/newrelic_agent.log'),
     },
     /**
      * When true, all request headers except for those listed in attributes.exclude

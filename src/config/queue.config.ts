@@ -1,19 +1,19 @@
-import * as config from 'config';
+import { BullModuleOptions } from '@nestjs/bull';
+import 'dotenv/config';
 
-const queue = config.get('queue');
-const redis = config.get('redis');
+const host = process.env.REDIS_HOST;
+const port = parseInt(process.env.REDIS_PORT, 10);
+const completeLimit = parseInt(process.env.BULL_QUEUE_COMPLETE_LIMIT, 10);
+const failureLimit = parseInt(process.env.BULL_QUEUE_FAILURE_LIMIT, 10);
 
-const host = redis.host;
-
-const queueConfig: any = {
+const queueConfig: BullModuleOptions = {
     redis: {
-        host: process.env.REDIS_HOST || `${host}`,
-        port: process.env.REDIS_PORT || redis.port,
+        host,
+        port,
     },
     defaultJobOptions: {
-        removeOnComplete: process.env.QUEUE_COMPLETE_LIMIT || queue.completeLimit,
-        removeOnFail: process.env.QUEUE_FAILURE_LIMIT || queue.failureLimit,
-        delay: process.env.QUEUE_DEFAULT_DELAY || queue.defaultDelay,
+        removeOnComplete: completeLimit || 100000,
+        removeOnFail: failureLimit || 10000,
     },
 };
 

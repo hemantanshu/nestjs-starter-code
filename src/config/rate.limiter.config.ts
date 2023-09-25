@@ -1,10 +1,8 @@
-import * as config from 'config';
-
-const rate = config.get('rate');
+import 'dotenv/config';
 
 const rateLimiterConfig = {
-    windowMs: process.env.RATE_WINDOW || rate.window, // 15 minutes
-    max: process.env.RATE_LIMIT || rate.limit, // limit each IP to 100 requests per windowMs
+    windowMs: parseInt(process.env.THROTTLE_WINDOW, 10) || 60000, // 15 minutes
+    max: parseInt(process.env.THROTTLE_RATE, 10) || 10000, // limit each IP to 100 requests per windowMs
 };
 
 export = rateLimiterConfig;

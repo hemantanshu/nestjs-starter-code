@@ -4,7 +4,10 @@ import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
-    constructor(private readonly appService: AppService, private readonly queueService: QueueService) {}
+    constructor(
+        private readonly appService: AppService,
+        private readonly queueService: QueueService
+    ) {}
 
     @Get()
     getHello(): string {
