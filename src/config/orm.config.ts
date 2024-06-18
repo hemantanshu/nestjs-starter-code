@@ -1,7 +1,7 @@
+import 'dotenv/config';
 import { join } from 'path';
 import { DataSource } from 'typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-import 'dotenv/config';
 
 // Check typeORM documentation for more information.
 export const connectionSource = new DataSource({

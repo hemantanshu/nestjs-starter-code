@@ -29,6 +29,7 @@
     "dependencies": {
         "@sentry/node": "^7.70.0",
         "@servicelabsco/nestjs-utility-services": "^1.2.2",
+        "express-handlebars": "^7.1.2",
         "nest-raven": "^10.0.0",
         "newrelic": "^11.1.0"
     },

@@ -1,7 +1,7 @@
+import 'dotenv/config';
 import { join } from 'path';
 import * as pg from 'pg';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-import 'dotenv/config';
 
 // set the big int column to the number when returning
 pg.types.setTypeParser(20, (v: any) => {
